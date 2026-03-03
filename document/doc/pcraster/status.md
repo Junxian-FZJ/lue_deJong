@@ -34,7 +34,7 @@ these differences as much as possible.
     - LUE supports this PCRaster operation, or an operation like it. It may be that the LUE operation is named
       differently, that it supports different parameters, or that it accepts parameters in a different order.
 *   - ❌
-    - This PCRaster operations is not considered yet. It may be in the future.
+    - This PCRaster operation is not considered yet. It may be in the future.
 *   - 🗑
     - This PCRaster operation is considered, but skipped. See notes for reason.
 *   - 1, 2, 3
@@ -67,29 +67,26 @@ these differences as much as possible.
     -
 *   - abs
     - ✅
-    - abs with non-spatial expression is not available
+    -
 *   - accucapacityflux \
       accucapacitystate
-    - ❌
-    - 1
+    - ✅
+    - accu_capacity
 *   - accuflux
     - ✅
-    - not yet in Python package \
-      accuflux with non-spatial material is not available
+    - accu
 *   - accufractionflux
       accufractionstate
     - ✅
-    - accu_fraction \
-      accu_fraction with non-spatial material and non-spatial transport fraction is not available
+    - accu_fraction
 *   - accuthresholdflux \
       accuthresholdstate
     - ✅
-    - accu_threshold3 \
-      accu_threshold with non-spatial material and non-spatial threshold is not available
+    - accu_threshold
 *   - accutriggerflux \
       accutriggerstate
-    - ❌
-    - 1
+    - ✅
+    - accu_trigger
 *   - accutraveltimestate \
       accutraveltimeflux \
       accutraveltimeremoved
@@ -161,7 +158,7 @@ these differences as much as possible.
     -
 *   - boolean
     - ✅
-    - boolean with non-spatial argument is not available
+    -
 *   - catchment
     - ❌
     - 2
@@ -227,8 +224,9 @@ these differences as much as possible.
     - ❌
     - 1
 *   - idiv, `//`
-    - ❌
-    - 1
+    - ✅
+    - `idiv` and `//` produce slightly different results. The `idiv` function truncates towards zero, like
+      PCRaster's `idiv`, while the `//` operator truncates towards the floor, as per Python convention.
 *   - ifthen
     - ✅
     - where(condition_expression, true_expression)
@@ -319,8 +317,8 @@ these differences as much as possible.
     - ❌
     - 1
 *   - mod, `%`
-    - ❌
-    - 1
+    - ✅
+    - modulus
 *   - ne or `!=`
     - ✅
     -

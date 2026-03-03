@@ -422,7 +422,7 @@ def report(expression, pathname):
     if is_non_spatial(expression):
         expression = non_spatial_to_spatial(fill_value=expression)
 
-    lfr.to_gdal(expression, pathname, configuration.pathname)
+    lfr.to_gdal(expression, pathname, clone_name=configuration.pathname)
 
 
 def div(expression1, expression2):
@@ -436,12 +436,20 @@ def abs(expression):
     return lfr.abs(expression)
 
 
-def accucapacityflux(flow_direction, material, transportcapacity):
-    raise NotImplementedError("accucapacityflux")
+def accucapacity(flow_direction, inflow, capacity):
+    flow_direction = ldd(flow_direction)
+    inflow = scalar(inflow)
+    capacity = scalar(capacity)
+
+    return lfr.accu_capacity(flow_direction, inflow, capacity)
 
 
-def accucapacitystate(flow_direction, material, transportcapacity):
-    raise NotImplementedError("accucapacitystate")
+def accucapacityflux(flow_direction, inflow, capacity):
+    return accucapacity(flow_direction, inflow, capacity)[0]
+
+
+def accucapacitystate(flow_direction, inflow, capacity):
+    return accucapacity(flow_direction, inflow, capacity)[1]
 
 
 def accuflux(flow_direction, inflow):
@@ -454,7 +462,7 @@ def accuflux(flow_direction, inflow):
 def accufraction(flow_direction, inflow, fraction):
     flow_direction = ldd(flow_direction)
     inflow = scalar(inflow)
-    threshold = scalar(fraction)
+    fraction = scalar(fraction)
 
     return lfr.accu_fraction(flow_direction, inflow, fraction)
 
@@ -483,12 +491,20 @@ def accuthresholdstate(flow_direction, inflow, threshold):
     return accuthreshold(flow_direction, inflow, threshold)[1]
 
 
-def accutriggerflux(flow_direction, material, transporttrigger):
-    raise NotImplementedError("accutriggerflux")
+def accutrigger(flow_direction, inflow, trigger):
+    flow_direction = ldd(flow_direction)
+    inflow = scalar(inflow)
+    trigger = scalar(trigger)
+
+    return lfr.accu_trigger(flow_direction, inflow, trigger)
 
 
-def accutriggerstate(flow_direction, material, transporttrigger):
-    raise NotImplementedError("accutriggerstate")
+def accutriggerflux(flow_direction, inflow, trigger):
+    return accutrigger(flow_direction, inflow, trigger)[0]
+
+
+def accutriggerstate(flow_direction, inflow, trigger):
+    return accutrigger(flow_direction, inflow, trigger)[1]
 
 
 def accutraveltimeflux(flow_direction, material, transporttraveltime):
@@ -735,8 +751,9 @@ def horizontan(*args):
     raise NotImplementedError("horizontan")
 
 
-def idiv(*args):
-    raise NotImplementedError("idiv")
+def idiv(expression1, expression2):
+    # PCRaster's idiv truncates towards zero
+    return lfr.trunc(expression1 / expression2)
 
 
 def ifthen(condition, expression):
@@ -949,8 +966,8 @@ def min(*args):
         return lfr.where(condition, expression1, expression2)
 
 
-def mod(*args):
-    raise NotImplementedError("mod")
+def mod(expression1, expression2):
+    return expression1 % expression2
 
 
 def ne(expression1, expression2):

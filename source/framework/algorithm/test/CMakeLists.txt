@@ -87,6 +87,7 @@ set(local_operation_names
     sqrt
     subtract
     tan
+    trunc
     unique_id
     valid
     where
@@ -109,7 +110,9 @@ set(miscellaneous_operation_names
 set(routing_operation_names
     accu
     accu_fraction
+    accu_capacity
     accu_threshold
+    accu_trigger
     d8_flow_direction
     decreasing_order
     downstream

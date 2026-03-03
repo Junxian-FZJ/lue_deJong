@@ -117,6 +117,19 @@ block()
                 )
                 list(APPEND generated_source_files "${output_pathname}")
 
+                # divide
+                set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/divide-${Policies}_${element}_${rank}.cpp")
+
+                generate_template_instantiation(
+                    INPUT_PATHNAME
+                        "${CMAKE_CURRENT_SOURCE_DIR}/${offset}/divide.cpp.in"
+                    OUTPUT_PATHNAME
+                        "${output_pathname}"
+                    DICTIONARY
+                        '{"Policies":"${Policies}","Element":"${Element}","rank":"${rank}"}'
+                )
+                list(APPEND generated_source_files "${output_pathname}")
+
                 # Instantiate equal_to
                 set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/equal_to-${Policies}_${element}_${rank}.cpp")
 
@@ -208,6 +221,19 @@ block()
                 )
                 list(APPEND generated_source_files "${output_pathname}")
 
+                # Instantiate modulus
+                set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/modulus-${Policies}_${element}_${rank}.cpp")
+
+                generate_template_instantiation(
+                    INPUT_PATHNAME
+                        "${CMAKE_CURRENT_SOURCE_DIR}/${offset}/modulus.cpp.in"
+                    OUTPUT_PATHNAME
+                        "${output_pathname}"
+                    DICTIONARY
+                        '{"Policies":"${Policies}","Element":"${Element}","rank":"${rank}"}'
+                )
+                list(APPEND generated_source_files "${output_pathname}")
+
                 # Instantiate multiply
                 set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/multiply-${Policies}_${element}_${rank}.cpp")
 
@@ -257,33 +283,6 @@ block()
                         "${output_pathname}"
                     DICTIONARY
                         '{"Policies":"${Policies}","ConditionElement":"${LUE_FRAMEWORK_BOOLEAN_ELEMENT}","ExpressionElement":"${Element}","rank":"${rank}"}'
-                )
-                list(APPEND generated_source_files "${output_pathname}")
-            endforeach()
-        endforeach()
-    endforeach()
-
-    set(generated_source_files ${generated_source_files} PARENT_SCOPE)
-endblock()
-
-
-block()
-    foreach(Policies IN LISTS LUE_FRAMEWORK_ALGORITHM_POLICIES)
-        foreach(Element IN LISTS LUE_FRAMEWORK_INTEGRAL_ELEMENTS)
-            string(REPLACE "::" "_" element ${Element})
-
-            foreach(rank IN LISTS LUE_FRAMEWORK_RANKS)
-
-                # Instantiate modulus
-                set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/modulus-${Policies}_${element}_${rank}.cpp")
-
-                generate_template_instantiation(
-                    INPUT_PATHNAME
-                        "${CMAKE_CURRENT_SOURCE_DIR}/${offset}/modulus.cpp.in"
-                    OUTPUT_PATHNAME
-                        "${output_pathname}"
-                    DICTIONARY
-                        '{"Policies":"${Policies}","Element":"${Element}","rank":"${rank}"}'
                 )
                 list(APPEND generated_source_files "${output_pathname}")
             endforeach()
@@ -436,19 +435,6 @@ block()
                 )
                 list(APPEND generated_source_files "${output_pathname}")
 
-                # divide
-                set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/divide-${Policies}_${element}_${rank}.cpp")
-
-                generate_template_instantiation(
-                    INPUT_PATHNAME
-                        "${CMAKE_CURRENT_SOURCE_DIR}/${offset}/divide.cpp.in"
-                    OUTPUT_PATHNAME
-                        "${output_pathname}"
-                    DICTIONARY
-                        '{"Policies":"${Policies}","Element":"${Element}","rank":"${rank}"}'
-                )
-                list(APPEND generated_source_files "${output_pathname}")
-
                 # exp
                 set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/exp-${Policies}_${element}_${rank}.cpp")
 
@@ -565,6 +551,20 @@ block()
                         '{"Policies":"${Policies}","Element":"${Element}","rank":"${rank}"}'
                 )
                 list(APPEND generated_source_files "${output_pathname}")
+
+                # trunc
+                set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/trunc-${Policies}_${element}_${rank}.cpp")
+
+                generate_template_instantiation(
+                    INPUT_PATHNAME
+                        "${CMAKE_CURRENT_SOURCE_DIR}/${offset}/trunc.cpp.in"
+                    OUTPUT_PATHNAME
+                        "${output_pathname}"
+                    DICTIONARY
+                        '{"Policies":"${Policies}","Element":"${Element}","rank":"${rank}"}'
+                )
+                list(APPEND generated_source_files "${output_pathname}")
+
             endforeach()
         endforeach()
     endforeach()
@@ -1715,6 +1715,19 @@ block()
         foreach(Element IN LISTS LUE_FRAMEWORK_FLOATING_POINT_ELEMENTS)
             string(REPLACE "::" "_" element ${Element})
 
+            # Instantiate accu_capacity
+            set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/accu_capacity-${Policies}_${element}.cpp")
+
+            generate_template_instantiation(
+                INPUT_PATHNAME
+                    "${CMAKE_CURRENT_SOURCE_DIR}/${offset}/accu_capacity.cpp.in"
+                OUTPUT_PATHNAME
+                    "${output_pathname}"
+                DICTIONARY
+                    '{"name":"${element}","Policies":"${Policies}","FlowDirectionElement":"${LUE_FRAMEWORK_FLOW_DIRECTION_ELEMENT}","Element":"${Element}"}'
+            )
+            list(APPEND generated_source_files "${output_pathname}")
+
             # Instantiate accu_fraction
             set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/accu_fraction-${Policies}_${element}.cpp")
 
@@ -1734,6 +1747,19 @@ block()
             generate_template_instantiation(
                 INPUT_PATHNAME
                     "${CMAKE_CURRENT_SOURCE_DIR}/${offset}/accu_threshold.cpp.in"
+                OUTPUT_PATHNAME
+                    "${output_pathname}"
+                DICTIONARY
+                    '{"name":"${element}","Policies":"${Policies}","FlowDirectionElement":"${LUE_FRAMEWORK_FLOW_DIRECTION_ELEMENT}","Element":"${Element}"}'
+            )
+            list(APPEND generated_source_files "${output_pathname}")
+
+            # Instantiate accu_trigger
+            set(output_pathname "${CMAKE_CURRENT_BINARY_DIR}/${offset}/accu_trigger-${Policies}_${element}.cpp")
+
+            generate_template_instantiation(
+                INPUT_PATHNAME
+                    "${CMAKE_CURRENT_SOURCE_DIR}/${offset}/accu_trigger.cpp.in"
                 OUTPUT_PATHNAME
                     "${output_pathname}"
                 DICTIONARY
